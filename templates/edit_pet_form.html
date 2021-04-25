@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Pet Adoption{% endblock %}
+{% block content %}
+
+<div class="row">
+
+    {% if pet.photo_url %}
+    <div class="col-sm-2 col-6">
+        <img src="{{ pet.photo_url }}"
+             class="img-fluid">
+      </div>
+    {% endif %}
+
+    <div class="col-sm-10 col-12">
+        <h1>This is {{ pet.name }}</h1>
+        <p>Species: {{ pet.species }}</p>
+        {% if pet.age %}
+        <p>Age: {{ pet.age }}</p>
+        {% endif %}
+        <h2>Update Pet Info</h2>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            {% for field in form if field.widget.input_type != 'hidden'%}
+            <div class="form-group">
+                {{field.label}}
+                {{field(class_="form-control")}}
+                {% for err in field.errors %}
+                <small class="form-text text-danger">
+                {{err}}
+                </small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+
+</div>
+{% endblock %}
